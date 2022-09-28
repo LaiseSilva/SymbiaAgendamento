@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, SafeAreaView, View, Text, TextInput} from "react-native"
 
-const Input = () => {
+const Input = ({label}) => {
     ( 
         <SafeAreaView>
-            <Text> Nome Paciente: </Text>
+            <Text>{label}</Text>
 
             <View style={styles.corTeste}>
                 <View style={styles.teste}>
