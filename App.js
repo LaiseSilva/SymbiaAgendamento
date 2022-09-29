@@ -9,11 +9,12 @@
 import React from 'react';
 
 import {StyleSheet, SafeAreaView, View, Text, TextInput} from "react-native"
+import Register from './src/views/Register';
 
 
 const App = () => {
   return (
-    <Text> Nome Paciente: </Text>
+    <Register/>
   );
 };
 
