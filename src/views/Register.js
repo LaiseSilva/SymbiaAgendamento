@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Dimensions, ScrollView} from "react-native"
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -8,14 +8,14 @@ import Button from '../components/Button';
 const Register = () => {
    
    //Armazenamento dos dados
-   const {inputs,setInputs} = React.useState({
+   const [inputs,setInputs] = React.useState({
       nome_paciente: "",
       telefone_paciente: "",
       celular_paciente : "",
       email_paciente: "",
       nome_responsavel: "",
       telefone_responsavel: ""
-   })
+   });
 
    //Entrada de dados
    const handlerOnChange = (text, input) => {
@@ -25,7 +25,14 @@ const Register = () => {
       ));
    }
 
-   const {errors, setErrors} = React.useState({});
+       useEffect(() => {
+        console.log(inputs)
+    }, [inputs])
+
+
+  const [errors, setErrors] = React.useState({})
+   
+
 
    const handlerErrors = (errorMenssage, input) =>{
       setErrors((prevState) => ({...prevState, [input]:errorMenssage}));
@@ -36,26 +43,37 @@ const Register = () => {
 
       if(!inputs.nome_paciente){
          validate = false;
+         console.log("sem nome")
          handlerErrors('Por favor preencha o campo o obrigatório', 'nome_paciente')
-      }else if(!inputs.telefone_paciente){
+      }else{
+
+      }
+      
+      if(!inputs.telefone_paciente){
          validate = false;
          handlerErrors('Por favor preencha o campo o obrigatório', 'telefone_paciente')
-      }else if(!inputs.celular_paciente){
+      }else{
+
+      }
+
+      if(!inputs.celular_paciente){
          validate = false;
          handlerErrors('Por favor preencha o campo o obrigatório', 'celular_paciente')
-      }else if(!inputs.email_paciente){
+      }else{
+
+      }
+      
+      if(!inputs.email_paciente){
          validate = false;
          handlerErrors('Por favor preencha o campo o obrigatório', 'email_paciente')
+      }else{
+
       }
       
    }
 
-   return(
-      
-        
+   return(    
             <View style={style.register}>
-
-      
                <View style={style.containerHeader}>
                   <Text style={style.title}> Clínicas Symbian </Text>
                   <Text style={style.subtitle}> Bem Vindo </Text>
@@ -68,36 +86,55 @@ const Register = () => {
                      <View style={style.inputs}>
                         <Input 
                            label= "Nome Paciente:" 
-                           placeholder="Nome paciente" 
-                           onChangeText = {(text) => handlerOnChange(text, "nome_paciente")}/>
+                           placeholder="Nome paciente"
+                           error = {errors.nome_paciente}
+                           typeKeyboard = {"default"}
+                           onFocus = {()=>{handlerErrors(null, 'nome_paciente')}}
+                           onChangeText = {(text) => handlerOnChange(text, "nome_paciente")}
+                           />
 
                         <Input 
                            label= "Telefone Paciente:" 
-                           placeholder="Telefone paciente" 
+                           placeholder="Telefone paciente"
+                           error = {errors.telefone_paciente} 
+                           typeKeyboard = {"numeric"}
+                           onFocus = {()=>{handlerErrors(null, 'telefone_paciente')}}
                            onChangeText  = {(text) => handlerOnChange(text, "telefone_paciente")}/>
                     
 
                         <Input 
                            label= "Celular Paciente:" 
-                           placeholder="Celular paciente" 
+                           placeholder="Celular paciente"
+                           typeKeyboard={"numeric"} 
+                           error = {errors.celular_paciente}
+                           onFocus = {()=>{handlerErrors(null, 'celular_paciente')}}
                            onChangeText  = {(text) => handlerOnChange(text, "celular_paciente")}/>
                         
 
                         <Input 
                            label= "Email Paciente:" 
                            placeholder="Email paciente" 
+                           typeKeyboard={"email-address"}
+                           error = {errors.email_paciente}
+                           onFocus = {()=>{handlerErrors(null, 'email_paciente')}}
                            onChangeText  = {(text) => handlerOnChange(text, "email_paciente")}/>
                        
                         
                         <Input 
                            label= "Nome Responsável:" 
                            placeholder="Nome Responsável" 
+                           typeKeyboard = {"default"}
+                           error = {errors.nome_responsavel}
+                           onFocus = {()=>{handlerErrors(null, 'nome_responsavel')}}
                            onChangeText  = {(text) => handlerOnChange(text, "nome_responsavel")}/>
                       
 
                         <Input 
                            label= "Telefone Responsável:" 
-                           placeholder="Telefone Responsável" 
+                           placeholder="Telefone Responsável"
+                           error = {errors.telefone_responsavel} 
+                           typeKeyboard={"numeric"} 
+                           onFocus = {()=>{handlerErrors(null, 'telefone_responsavel')}}
                            onChangeText  = {(text) => handlerOnChange(text, "telefone_responsavel")}/>
                        
                      </View>
