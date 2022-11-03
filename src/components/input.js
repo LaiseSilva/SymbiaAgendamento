@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, SafeAreaView, View, Text, TextInput, Dimensions} from "react-native"
 
-const Input = ({label,placeholder,error,typeKeyboard ,onFocus = () =>{}, ...props}) => {
+const Input = ({label,placeholder,error,typeKeyboard, lenght ,onFocus = () =>{}, ...props}) => {
     return ( 
           <SafeAreaView>
               <Text>{label}</Text>
               <View>
                   <View style={[styles.teste, {borderColor: error ? "#FF0000": "#000000"}]}>
                       <TextInput style={styles.input} placeholder={placeholder} onFocus={()=>{onFocus()}} autoCorrect={false}
-                      keyboardType={typeKeyboard}
+                      keyboardType={typeKeyboard} maxLength={lenght}
                       {...props}/>
                   </View>
               </View>

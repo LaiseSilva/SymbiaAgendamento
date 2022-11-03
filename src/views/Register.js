@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Dimensions, ScrollView} from "react-native"
 import Input from '../components/Input';
 import Button from '../components/Button';
-
+import apiSymbiaAgendamento from '../service/apiSymbiaAgendamento'
 
 
 const Register = () => {
    
    //Armazenamento dos dados
-   const [inputs,setInputs] = React.useState({
+   const [dadosPaciente,setdadosPaciente] = React.useState({
       nome_paciente: "",
       telefone_paciente: "",
       celular_paciente : "",
@@ -20,14 +20,14 @@ const Register = () => {
    //Entrada de dados
    const handlerOnChange = (text, input) => {
 
-      setInputs((prevState) => (
+      setdadosPaciente((prevState) => (
          {...prevState, [input]: text}
       ));
    }
 
        useEffect(() => {
-        console.log(inputs)
-    }, [inputs])
+        console.log(dadosPaciente)
+    }, [dadosPaciente])
 
 
   const [errors, setErrors] = React.useState({})
@@ -41,36 +41,57 @@ const Register = () => {
    const validate = () => {
       let validate = true;
 
-      if(!inputs.nome_paciente){
+      if(!dadosPaciente.nome_paciente){
          validate = false;
-         console.log("sem nome")
          handlerErrors('Por favor preencha o campo o obrigatório', 'nome_paciente')
       }else{
 
       }
       
-      if(!inputs.telefone_paciente){
+      if(!dadosPaciente.telefone_paciente){
          validate = false;
          handlerErrors('Por favor preencha o campo o obrigatório', 'telefone_paciente')
       }else{
 
       }
 
-      if(!inputs.celular_paciente){
+      if(!dadosPaciente.celular_paciente){
          validate = false;
          handlerErrors('Por favor preencha o campo o obrigatório', 'celular_paciente')
       }else{
 
       }
       
-      if(!inputs.email_paciente){
+      if(!dadosPaciente.email_paciente){
          validate = false;
          handlerErrors('Por favor preencha o campo o obrigatório', 'email_paciente')
       }else{
 
       }
+
+      if(validate){
+
+         cadastrar()
+         console.log("cadastrar")
+      }
       
    }
+
+   const cadastrar = ()=>{
+
+      try{
+        const response = apiSymbiaAgendamento.post('cadastrarPaciente', 
+        {
+         nome_paciente: dadosPaciente.nome_paciente,
+         telefone_paciente: dadosPaciente.telefone_paciente,
+         celular_paciente : dadosPaciente.celular_paciente,
+         email_paciente: dadosPaciente.email_paciente,
+         nome_responsavel: dadosPaciente.nome_responsavel,
+         telefone_responsavel: dadosPaciente.telefone_responsavel
+        });
+      }catch(error){}
+
+  }
 
    return(    
             <View style={style.register}>
@@ -79,11 +100,11 @@ const Register = () => {
                   <Text style={style.subtitle}> Bem Vindo </Text>
                </View>
                <ScrollView>
-                  <View style={style.containerInputs}>
+                  <View style={style.containerdadosPaciente}>
                      <View style={style.titleContainer}>
                         <Text style={style.titleView}>Cadastro</Text>
                      </View>
-                     <View style={style.inputs}>
+                     <View style={style.dadosPaciente}>
                         <Input 
                            label= "Nome Paciente:" 
                            placeholder="Nome paciente"
@@ -175,7 +196,7 @@ const style = StyleSheet.create({
       fontSize: 25,
    },
 
-   containerInputs:{
+   containerdadosPaciente:{
       height: Dimensions.get("window").height * 0.7,
       width: Dimensions.get("window").width * 0.9,
       backgroundColor: "#D9D9D9",
@@ -200,7 +221,7 @@ const style = StyleSheet.create({
       fontSize: 30
    },
 
-   inputs:{
+   dadosPaciente:{
       width: '100%',
       flex:1,
       alignItems:"center",
